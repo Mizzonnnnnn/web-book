@@ -1,0 +1,22 @@
+:where(.css-dev-only-do-not-override-1gwfwyx).ant-layout .ant-layout-sider {
+    background: white;
+}
+
+.admin-container {
+    height: 97.7vh;
+
+    .admin-header {
+        display        : flex;
+        align-items    : center;
+        justify-content: space-between;
+        height         : 50px;
+    }
+
+}
+
+.header-table {
+    display        : flex;
+    align-items    : center;
+    justify-content: space-between;
+    height         : 25px;
+}

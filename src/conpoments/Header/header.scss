@@ -1,0 +1,156 @@
+.header-container {
+    font-family: Inter, Helvetica, Arial, sans-serif;
+
+    .page-header {
+        height     : 50px;
+        display    : flex;
+        align-items: center;
+        padding    : 0 20px;
+
+
+        .header-icon {
+            padding: 0 15px;
+
+            .icon {
+                font-size: 30px;
+                color    : rgb(10, 104, 255);
+
+            }
+        }
+
+        .header-title {
+            font-size  : 24px;
+            font-weight: 600;
+            color      : rgb(10, 104, 255);
+        }
+
+
+
+        .header-search {
+            padding-left: 40px;
+            line-height : 150%;
+            width       : 700px;
+
+            .ant-input-affix-wrapper {
+                line-height: 30px;
+            }
+
+            .ant-input-affix-wrapper>input.ant-input {
+                padding-left: 10px;
+            }
+
+            .ant-input-prefix {
+                font-size: 20px;
+                color    : rgb(122, 124, 126);
+            }
+
+            ::placeholder {
+                color      : rgb(122, 124, 126);
+                font-size  : 14px;
+                font-weight: 450;
+            }
+
+            :where(.css-dev-only-do-not-override-1gwfwyx).ant-input-outlined:focus-within {
+                border-color: white;
+            }
+        }
+
+        .shopping-cart {
+            margin-left  : 20px;
+            margin-right : 20px;
+            padding      : 8px 8px;
+            border-radius: 10px;
+
+            .icon-Shopping {
+                color: #0065FF;
+            }
+
+            &:hover {
+                background-color: #E0ECFF;
+                cursor          : pointer;
+            }
+        }
+
+        .header-home {
+            color        : rgb(10, 104, 255);
+            margin-left  : 40px;
+            padding      : 8px 12px;
+            border-radius: 10px;
+            gap          : 6px;
+            line-height  : 150%;
+            display      : flex;
+            align-items  : center;
+            white-space  : nowrap;
+
+            /* Căn chỉnh trung tâm dọc */
+            .icon-home {
+                font-weight: 500;
+                font-size  : 20px;
+            }
+
+            .title-home {
+                font-weight: 550;
+                font-size  : 15px;
+                white-space: nowrap;
+            }
+
+            @media (max-width: 576px) {
+
+                /* Ẩn chữ "Trang chủ" và biểu tượng trên màn hình nhỏ */
+                .title-home,
+                .icon-home {
+                    display: none;
+                }
+
+                /* Đặt margin về 0 nếu cần thiết để tránh khoảng lồi ra */
+                & {
+                    margin-left: 0;
+                    padding    : 0;
+                    /* Use & to opt into the new behavior */
+                }
+
+                /* Hoặc điều chỉnh theo nhu cầu */
+            }
+
+            &:hover {
+                background-color: #E0ECFF;
+                cursor          : pointer;
+            }
+        }
+
+        .header-profile {
+            margin-left  : 20px;
+            line-height  : 150%;
+            border-radius: 10px;
+
+            .ant-btn {
+                border: none;
+                gap   : 4px
+            }
+
+            .icon-profile {
+                font-weight: 500;
+                font-size  : 23px;
+                color      : #808089;
+            }
+
+            .title-profile {
+                font-weight: 550;
+                font-size  : 15px;
+                color      : #808089;
+            }
+
+            :where(.css-dev-only-do-not-override-1gwfwyx).ant-btn-default:not(:disabled):not(.ant-btn-disabled):hover {
+                background-color: #DBDBE0;
+            }
+        }
+
+        .line {
+            width           : 1.5px;
+            background-color: rgb(221 221 231);
+            height          : 30px;
+            margin-left     : 18px;
+            margin-right    : 2px;
+        }
+    }
+}

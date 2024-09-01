@@ -113,14 +113,11 @@ const LoginPage = () => {
                                 required: true,
                                 message: "Please input your Password!",
                             },
-                            {
-                                min: 8,
-                                message: "Password must be at least 8 characters long",
-                            },
-                            {
-                                pattern: new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$'),
-                                message: 'Password must contain at least one lowercase letter, uppercase letter, number, and special character'
-                            }
+                            // {
+                            //     min: 8,
+                            //     message: "Password must be at least 8 characters long",
+                            // },
+
                         ]}
                     >
                         <Input.Password

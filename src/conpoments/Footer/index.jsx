@@ -1,10 +1,10 @@
-
+import "./footer.scss"
 
 const Footer = () => {
     return (
-        <>
-            footer
-        </>
+        <div className="footer">
+            Ant Design ©{new Date().getFullYear()} Created by Ant UED
+        </div>
     )
 }
 

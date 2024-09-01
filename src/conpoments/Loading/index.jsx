@@ -12,6 +12,7 @@ const Loading = () => {
                 speedMultiplier='1'
             // color="#b37373"
             />
+
         </div>
 
     )

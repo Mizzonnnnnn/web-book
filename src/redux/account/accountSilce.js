@@ -22,12 +22,24 @@ export const accountSilce = createSlice({
         },
         getAccountAction: (state, action) => {
             state.isAuthenticated = true;
-            state.user = action.payload;
+            state.user = action.payload.user;
+        },
+        doLogoutAction: (state) => {
+            localStorage.removeItem("access_token")
+            state.isAuthenticated = false;
+            state.user = {
+                email: "",
+                phone: "",
+                fullName: "",
+                role: "",
+                avatar: "",
+                id: ""
+            }
         }
     },
 })
 
 // Action creators are generated for each case reducer function
-export const { doLoginAction, getAccountAction } = accountSilce.actions
+export const { doLoginAction, getAccountAction, doLogoutAction } = accountSilce.actions
 
 export default accountSilce.reducer

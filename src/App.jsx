@@ -2,7 +2,6 @@ import {
   createBrowserRouter,
   RouterProvider, Outlet
 } from "react-router-dom";
-import ErrorPage from './error-page.jsx'
 import LoginPage from "./pages/login/index.jsx";
 import ContactPage from "./pages/contact/index.jsx";
 import Header from "./conpoments/Header/index.jsx";
@@ -17,19 +16,16 @@ import { getAccountAction } from "./redux/account/accountSilce.js";
 import Loading from "./conpoments/Loading/index.jsx";
 import AdminPage from "./pages/admin/index.jsx";
 import ProtectedRoute from "./conpoments/ProtectRoute/index.jsx";
+import NotFound404 from "./conpoments/NotFound/NotFound404.jsx";
+import LayoutAdmin from "./conpoments/Admin/index.jsx";
+import ManageUser from "./pages/admin/user/index.jsx";
 
 const Layout = () => {
-  const isAuthenticated = useSelector(state => state.account.isAuthenticated);
-
   return (
     <div className="layout-app">
       <Header />
       <Outlet />
       <Footer />
-      {
-        isAuthenticated === false &&
-        <Loading />
-      }
     </div>
   )
 }
@@ -37,16 +33,16 @@ const Layout = () => {
 
 export default function App() {
   const dispatch = useDispatch();
+  const isAuthenticated = useSelector(state => state.account.isAuthenticated);
 
   const getAccount = async () => {
 
-    if (window.location.pathname === "/login" || window.location.pathname === "/admin") return;
+    if (window.location.pathname === "/login"
+      || window.location.pathname === "/register") return;
     const res = await callFetchAccount();
-    setTimeout(() => {
-      if (res && res.data) {
-        dispatch(getAccountAction(res.data));
-      }
-    }, 1000);
+    if (res && res.data) {
+      dispatch(getAccountAction(res.data));
+    }
   }
 
   useEffect(() => {
@@ -57,7 +53,7 @@ export default function App() {
     {
       path: "/",
       element: <Layout />,
-      errorElement: <ErrorPage />,
+      errorElement: <NotFound404 />,
       children: [
         { index: true, element: <Index /> },
         { path: "contact", element: <ContactPage /> },
@@ -69,21 +65,40 @@ export default function App() {
     {
       path: "/admin",
       element:
-        <ProtectedRoute >
-          <Layout />
+        <ProtectedRoute>
+          <LayoutAdmin />
         </ProtectedRoute>,
-      errorElement: <ErrorPage />,
+      errorElement: <NotFound404 />,
       children: [
-        { index: true, element: <AdminPage /> },
+        {
+          index: true, element:
+            // <ProtectedRoute>
+            <AdminPage />
+          // </ProtectedRoute>
+        },
         { path: "contact", element: <ContactPage /> },
         { path: "book", element: <BookPage /> },
+        {
+          path: "user", element:
+
+            <ProtectedRoute>
+              <ManageUser />
+            </ProtectedRoute>
+        },
+
       ],
     },
   ])
 
   return (
     <>
-      <RouterProvider router={router} />
+      {isAuthenticated === true
+        || window.location.pathname === '/login'
+        || window.location.pathname === "/"
+        || window.location.pathname === "/register"
+        ? <RouterProvider router={router} />
+        : <Loading />}
     </>
+
   )
 }
