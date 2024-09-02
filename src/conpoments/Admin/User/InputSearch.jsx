@@ -24,7 +24,6 @@ const InputSearch = (props) => {
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
     };
-    const { token: { colorBgContainer, borderRadiusLG } } = theme.useToken();
 
     return (
         <Form

@@ -1,10 +1,11 @@
-import { Button, Col, Empty, message, Popconfirm, Row, Table } from "antd";
+import { Button, Col, Empty, message, Popconfirm, Row, Table, Typography } from "antd";
 import InputSearch from "./InputSearch";
 import { useEffect, useState } from "react";
 import { callDeleteUser, callUserPaginayion } from "../../../service/api";
 import { CloudUploadOutlined, DeleteOutlined, ExportOutlined, PlusOutlined } from "@ant-design/icons";
 import { BiRefresh } from "react-icons/bi";
 import "../admin.scss";
+import UserViewDetail from "./UserViewDetail";
 const TableUser = () => {
     const [listData, setListData] = useState([]);
     const [meta, setMeta] = useState({})
@@ -13,19 +14,47 @@ const TableUser = () => {
     const [filter, setFilter] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [isSorter, setIsSorter] = useState('');
+    const [open, setOpen] = useState(false);
+    const [dataRecord, setDataRecord] = useState({});
+
     const columns = [
-        { title: 'Id', dataIndex: '_id' },
+        {
+            title: 'Id', dataIndex: '_id', render: (record) =>
+                <Typography onClick={handleViewUser} style={{ cursor: "pointer" }}>
+                    {record}
+                </Typography>
+        },
         { title: 'Name', dataIndex: 'fullName', sorter: true },
         { title: 'Email', dataIndex: 'email', sorter: true },
         { title: 'Phone', dataIndex: 'phone', sorter: true },
         {
-            title: 'Action', dataIndex: '', key: 'x', render: (record, index) =>
+            title: 'Update gần nhất', dataIndex: 'updatedAt', sorter: true, render: (record) =>
+                <Typography>
+                    {
+                        handleUpdateAt(record)
+                    }
+                </Typography>
+        },
+        {
+            title: 'Action', dataIndex: '', key: 'x', render: (record) =>
                 <Popconfirm title="Sure to delete?" onConfirm={() => handleDelete(record._id)} >
                     <DeleteOutlined style={{ color: "red" }} />
                 </Popconfirm >
         },
     ];
+    const handleUpdateAt = (data) => {
+        const date = new Date(data);
+        const day = date.getUTCDate();
+        const month = date.getUTCMonth() + 1; // Tháng bắt đầu từ 0 nên cần cộng thêm 1
+        const year = date.getUTCFullYear();
 
+        const hours = date.getUTCHours();
+        const minutes = date.getUTCMinutes();
+        const seconds = date.getUTCSeconds();
+
+        const formattedDate = `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
+        return formattedDate;
+    }
     const handleDelete = async (id) => {
         const res = await callDeleteUser(id);
         setIsLoading(true);
@@ -46,8 +75,8 @@ const TableUser = () => {
             setCurrent(1);
         }
 
-        if (sorter) {
-            const a = sorter.order === "ascend" ? `&sort=${sorter.field}` : `&sort=-${sorter.field}`
+        if (sorter && sorter.field) {
+            const a = sorter.order === "ascend" ? `sort=${sorter.field}` : `sort=-${sorter.field}`
             setIsSorter(a)
         }
 
@@ -61,10 +90,10 @@ const TableUser = () => {
         let query = `&current=${currentP}&pageSize=${pageSize}`;
 
         if (filter) {
-            query += `${filter}`;
+            query += `&${filter}`;
         }
         if (isSorter) {
-            query += `${isSorter}`;
+            query += `&${isSorter}`;
         }
         const res = await callUserPaginayion(query);
         if (res.data.result.length === 0 && currentP > 1) {
@@ -86,7 +115,7 @@ const TableUser = () => {
 
     const handleRefesh = () => {
         setFilter("")
-        setPageSize(5)
+        setIsSorter("")
         setIsLoading(true);
         setIsLoading(false)
     }
@@ -122,6 +151,13 @@ const TableUser = () => {
             </div>
         )
     }
+
+    const handleViewUser = () => {
+        setOpen(true)
+    }
+    const handledataRecord = (record) => {
+        setDataRecord(record)
+    }
     return (
         <>
             <Row gutter={[20]}>
@@ -143,7 +179,7 @@ const TableUser = () => {
                             total: meta.total,
                             pageSize: pageSize,
                             showQuickJumper: true,
-                            pageSizeOptions: ["1", '2', "5", '10', '20', '50'],
+                            pageSizeOptions: ['2', '5', '10', '20', '50'],
                             style: {
                                 display: "flex",
                                 justifyContent: "center"
@@ -151,9 +187,19 @@ const TableUser = () => {
                         }}
                         rowKey="_id"
                         loading={isLoading}
+                        onRow={(record) => {
+                            return {
+                                onClick: () => handledataRecord(record)
+                            }
+                        }}
                     />
                 </Col>
             </Row>
+            <UserViewDetail
+                show={open}
+                setShow={setOpen}
+                data={dataRecord}
+            />
         </>
     )
 }
