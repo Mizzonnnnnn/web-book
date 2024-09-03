@@ -6,6 +6,7 @@ import { CloudUploadOutlined, DeleteOutlined, ExportOutlined, PlusOutlined } fro
 import { BiRefresh } from "react-icons/bi";
 import "../admin.scss";
 import UserViewDetail from "./UserViewDetail";
+import UserCreate from "./UserCreate";
 const TableUser = () => {
     const [listData, setListData] = useState([]);
     const [meta, setMeta] = useState({})
@@ -16,6 +17,7 @@ const TableUser = () => {
     const [isSorter, setIsSorter] = useState('');
     const [open, setOpen] = useState(false);
     const [dataRecord, setDataRecord] = useState({});
+    const [isShowCreate, setIsShowCreate] = useState(false);
 
     const columns = [
         {
@@ -42,6 +44,7 @@ const TableUser = () => {
                 </Popconfirm >
         },
     ];
+
     const handleUpdateAt = (data) => {
         const date = new Date(data);
         const day = date.getUTCDate();
@@ -55,6 +58,7 @@ const TableUser = () => {
         const formattedDate = `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
         return formattedDate;
     }
+
     const handleDelete = async (id) => {
         const res = await callDeleteUser(id);
         setIsLoading(true);
@@ -142,6 +146,7 @@ const TableUser = () => {
                     <Button
                         icon={<PlusOutlined />}
                         type="primary"
+                        onClick={() => setIsShowCreate(true)}
                     >Thêm mới</Button>
 
                     <Button type="ghost" onClick={handleRefesh}>
@@ -158,6 +163,7 @@ const TableUser = () => {
     const handledataRecord = (record) => {
         setDataRecord(record)
     }
+
     return (
         <>
             <Row gutter={[20]}>
@@ -199,6 +205,11 @@ const TableUser = () => {
                 show={open}
                 setShow={setOpen}
                 data={dataRecord}
+            />
+            <UserCreate
+                show={isShowCreate}
+                setShow={setIsShowCreate}
+                fetchListUser={fetchListUser}
             />
         </>
     )
