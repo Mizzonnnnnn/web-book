@@ -2,11 +2,15 @@ import { Button, Col, Empty, message, Popconfirm, Row, Table, Typography } from 
 import InputSearch from "./InputSearch";
 import { useEffect, useState } from "react";
 import { callDeleteUser, callUserPaginayion } from "../../../service/api";
-import { CloudUploadOutlined, DeleteOutlined, ExportOutlined, PlusOutlined } from "@ant-design/icons";
+import { CloudUploadOutlined, DeleteOutlined, EditOutlined, ExportOutlined, PlusOutlined } from "@ant-design/icons";
 import { BiRefresh } from "react-icons/bi";
 import "../admin.scss";
 import UserViewDetail from "./UserViewDetail";
 import UserCreate from "./UserCreate";
+import ImportUser from "./ImportUser";
+import * as XLSX from 'xlsx';
+import UserUpdate from "./UserUpdate";
+
 const TableUser = () => {
     const [listData, setListData] = useState([]);
     const [meta, setMeta] = useState({})
@@ -18,7 +22,8 @@ const TableUser = () => {
     const [open, setOpen] = useState(false);
     const [dataRecord, setDataRecord] = useState({});
     const [isShowCreate, setIsShowCreate] = useState(false);
-
+    const [isShowImport, setIsShowImport] = useState(false)
+    const [isShowUpdate, setIsShowUpdate] = useState(false);
     const columns = [
         {
             title: 'Id', dataIndex: '_id', render: (record) =>
@@ -39,9 +44,22 @@ const TableUser = () => {
         },
         {
             title: 'Action', dataIndex: '', key: 'x', render: (record) =>
-                <Popconfirm title="Sure to delete?" onConfirm={() => handleDelete(record._id)} >
-                    <DeleteOutlined style={{ color: "red" }} />
-                </Popconfirm >
+                <div
+                    style={{
+                        gap: "12px",
+                        display: "flex"
+                    }}
+                >
+                    <div>
+                        <Popconfirm title="Sure to delete?" onConfirm={() => handleDelete(record._id)} >
+                            <DeleteOutlined style={{ color: "red" }} />
+                        </Popconfirm >
+                    </div>
+
+                    <div>
+                        <EditOutlined onClick={() => setIsShowUpdate(true)} style={{ color: "blue" }} />
+                    </div>
+                </div>
         },
     ];
 
@@ -120,8 +138,17 @@ const TableUser = () => {
     const handleRefesh = () => {
         setFilter("")
         setIsSorter("")
+        fetchListUser()
         setIsLoading(true);
         setIsLoading(false)
+    }
+
+    const handleOnclick = () => {
+        const ws = XLSX.utils.json_to_sheet(listData);
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, "Datas");
+        XLSX.writeFile(wb, "data.csv", { bookType: 'csv', FS: ";" });
+        message.success('File downloaded successfully.');
     }
     const renderHeader = () => {
         return (
@@ -136,11 +163,13 @@ const TableUser = () => {
                     <Button
                         icon={<ExportOutlined />}
                         type="primary"
+                        onClick={handleOnclick}
                     >Export</Button>
 
                     <Button
                         icon={<CloudUploadOutlined />}
                         type="primary"
+                        onClick={() => setIsShowImport(true)}
                     >Import</Button>
 
                     <Button
@@ -209,6 +238,17 @@ const TableUser = () => {
             <UserCreate
                 show={isShowCreate}
                 setShow={setIsShowCreate}
+                fetchListUser={fetchListUser}
+            />
+            <ImportUser
+                show={isShowImport}
+                setShow={setIsShowImport}
+                fetchListUser={fetchListUser}
+            />
+            <UserUpdate
+                show={isShowUpdate}
+                setShow={setIsShowUpdate}
+                data={dataRecord}
                 fetchListUser={fetchListUser}
             />
         </>

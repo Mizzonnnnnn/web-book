@@ -27,3 +27,11 @@ export const callDeleteUser = (id) => {
 export const callCreateUser = (fullName, password, email, phone) => {
     return axios.post(`/api/v1/user/`, { fullName, password, email, phone })
 }
+
+export const importUsers = (data) => {
+    return axios.post('/api/v1/user/bulk-create', data)
+}
+
+export const callUpdateUser = (_id, fullName, phone) => {
+    return axios.put('/api/v1/user', { _id, fullName, phone })
+}
