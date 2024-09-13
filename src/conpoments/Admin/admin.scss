@@ -3,7 +3,7 @@
 }
 
 .admin-container {
-    height: 97.7vh;
+    height: 100vh;
 
     .admin-header {
         display        : flex;
@@ -19,4 +19,14 @@
     align-items    : center;
     justify-content: space-between;
     height         : 25px;
+}
+
+:where(.css-dev-only-do-not-override-1gwfwyx).ant-layout .ant-layout-sider-trigger {
+    background: white;
+    color     : black;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+    /* Ẩn thanh cuộn trong Chrome và các trình duyệt WebKit */
 }

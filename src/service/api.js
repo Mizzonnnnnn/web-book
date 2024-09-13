@@ -35,3 +35,33 @@ export const importUsers = (data) => {
 export const callUpdateUser = (_id, fullName, phone) => {
     return axios.put('/api/v1/user', { _id, fullName, phone })
 }
+
+export const callBookPagination = (queryString) => {
+    return axios.get(`/api/v1/book?${queryString}`)
+}
+
+export const callDeleteBook = (id) => {
+    return axios.delete(`/api/v1/book/${id}`)
+}
+
+export const callBookCategory = () => {
+    return axios.get("/api/v1/database/category");
+}
+
+export const callBookImage = (fileImg) => {
+    const body = new FormData();
+    body.append("fileImg", fileImg)
+    return axios({
+        method: "post",
+        url: "/api/v1/file/upload",
+        data: body,
+        headers: {
+            'Content-Type': "multipart/form-data",
+            "upload-type": "book"
+        }
+    })
+}
+
+export const callBookCreate = (thumbnail, slider, mainText, author, price, sold, quantity, category) => {
+    return axios.post(`/api/v1/book`, { thumbnail, slider, mainText, author, price, sold, quantity, category })
+}

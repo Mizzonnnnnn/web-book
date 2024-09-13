@@ -8,6 +8,9 @@ import {
     UploadOutlined,
     UserOutlined,
     VideoCameraOutlined,
+    DesktopOutlined,
+    FileOutlined,
+    PieChartOutlined,
 } from '@ant-design/icons';
 import { Avatar, Button, Dropdown, Layout, Menu, message, Space, theme, } from 'antd';
 const { Header, Sider, Content, Footer } = Layout;
@@ -16,9 +19,6 @@ import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { callLogout } from '../../service/api';
 import { doLogoutAction } from '../../redux/account/accountSilce';
-
-
-
 
 const LayoutAdmin = () => {
     const [collapsed, setCollapsed] = useState(false);
@@ -53,11 +53,6 @@ const LayoutAdmin = () => {
                     key: "11",
                     label: <Link to="/admin/user">Users</Link>,
                     icon: <TeamOutlined />,
-                },
-                {
-                    key: "12",
-                    label: <Link to="/admin/user">options1</Link>,
-                    icon: <TeamOutlined />,
                 }
             ]
         },
@@ -70,7 +65,7 @@ const LayoutAdmin = () => {
             key: 'order',
             icon: <UploadOutlined />,
             label: <Link to="/admin/order">Manage Orders</Link>,
-        },
+        }
     ]
 
     const itemsDropdown = [
@@ -89,17 +84,18 @@ const LayoutAdmin = () => {
 
     return (
         <Layout className='admin-container'>
-            <Sider trigger={null} collapsible collapsed={collapsed}>
+            <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
                 <div style={{ height: 32, margin: 16, marginBottom: 17, textAlign: 'center', paddingTop: 5 }}>
                     Admin
                 </div>
-
+                <div className="demo-logo-vertical" />
                 <Menu
                     mode="inline"
                     defaultSelectedKeys={['1']}
                     items={items}
                 />
             </Sider>
+
             <Layout>
                 <Header
                     style={{
@@ -115,7 +111,7 @@ const LayoutAdmin = () => {
                         style={{
                             fontSize: '16px',
                             width: 64,
-                            height: 50,
+                            height: 64,
                         }}
                     />
 
@@ -125,8 +121,11 @@ const LayoutAdmin = () => {
                         }}
                     >
                         <a onClick={(e) => e.preventDefault()}>
-                            <Space >
-
+                            <Space
+                                style={{
+                                    paddingRight: "30px"
+                                }}
+                            >
                                 <Avatar size={30} src={image} />
                                 {user.fullName}
                             </Space>
@@ -136,23 +135,19 @@ const LayoutAdmin = () => {
 
                 <Content
                     style={{
-                        margin: "12px 0px 0px 12px",
-                        padding: 20,
-                        minHeight: 350,
+                        margin: '24px 16px',
+                        padding: 24,
+                        minHeight: 280,
                         background: colorBgContainer,
                         borderRadius: borderRadiusLG,
+                        overflow: 'auto',
+                        scrollbarWidth: 'none',
+                        msOverflowStyle: 'none',
                     }}
+                    className="no-scrollbar"
                 >
                     <Outlet />
                 </Content>
-                {/* <Footer
-                    style={{
-                        textAlign: 'center',
-                        padding: "10px"
-                    }}
-                >
-                    Ant Design ©{new Date().getFullYear()} Created by Ant UED
-                </Footer> */}
             </Layout>
         </Layout >
     );

@@ -6,7 +6,6 @@ import LoginPage from "./pages/login/index.jsx";
 import ContactPage from "./pages/contact/index.jsx";
 import Header from "./conpoments/Header/index.jsx";
 import Footer from "./conpoments/Footer/index.jsx";
-import BookPage from "./pages/book/index.jsx";
 import RegisterPage from "./pages/register/index.jsx";
 import Index from "./conpoments/Home/index.jsx";
 import React, { useEffect } from 'react';
@@ -19,6 +18,7 @@ import ProtectedRoute from "./conpoments/ProtectRoute/index.jsx";
 import NotFound404 from "./conpoments/NotFound/NotFound404.jsx";
 import LayoutAdmin from "./conpoments/Admin/index.jsx";
 import ManageUser from "./pages/admin/user/index.jsx";
+import BookPage from "./pages/admin/book/index,.jsx";
 
 const Layout = () => {
   return (

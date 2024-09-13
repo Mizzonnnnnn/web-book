@@ -1,17 +1,16 @@
 import { Button, Col, Empty, message, Popconfirm, Row, Space, Table, Typography } from "antd";
 import InputSearch from "./InputSearch";
 import { useEffect, useState } from "react";
-import { callDeleteUser, callUserPaginayion } from "../../../service/api";
-import { CloudUploadOutlined, DeleteOutlined, EditOutlined, ExportOutlined, PlusOutlined } from "@ant-design/icons";
+import { callBookPagination, callDeleteBook } from "../../../service/api";
+import { DeleteOutlined, EditOutlined, ExportOutlined, PlusOutlined } from "@ant-design/icons";
 import { BiRefresh } from "react-icons/bi";
 import "../admin.scss";
-import UserViewDetail from "./UserViewDetail";
-import UserCreate from "./UserCreate";
-import ImportUser from "./ImportUser";
+import BookViewDetail from "./BookViewDetail";
+import BookCreate from "./BookCreate";
 import * as XLSX from 'xlsx';
 import UserUpdate from "./UserUpdate";
 
-const TableUser = () => {
+const BookManage = () => {
     const [listData, setListData] = useState([]);
     const [meta, setMeta] = useState({})
     const [currentP, setCurrent] = useState(1);
@@ -22,24 +21,28 @@ const TableUser = () => {
     const [open, setOpen] = useState(false);
     const [dataRecord, setDataRecord] = useState({});
     const [isShowCreate, setIsShowCreate] = useState(false);
-    const [isShowImport, setIsShowImport] = useState(false)
     const [isShowUpdate, setIsShowUpdate] = useState(false);
+
     const columns = [
         {
-            title: 'Id', dataIndex: '_id', render: (record) =>
+            title: 'Id', dataIndex: '_id', width: "19%", render: (record) =>
                 <Typography onClick={handleViewUser} style={{ cursor: "pointer", color: "#4096ff" }}>
                     {record}
                 </Typography>
         },
-        { title: 'Name', dataIndex: 'fullName', sorter: true },
-        { title: 'Email', dataIndex: 'email', sorter: true },
-        { title: 'Phone', dataIndex: 'phone', sorter: true },
+        { title: 'Tên sách', dataIndex: 'mainText', sorter: true },
+        { title: 'Thể Loại', dataIndex: 'category', sorter: true },
+        { title: 'Tác giả', dataIndex: 'author', width: "13%", sorter: true },
         {
-            title: 'Update gần nhất', dataIndex: 'updatedAt', sorter: true, render: (record) =>
+            title: 'Giá tiền', dataIndex: 'price', sorter: true, render: (record) =>
                 <Typography>
-                    {
-                        handleUpdateAt(record)
-                    }
+                    {handleMoney(record)}
+                </Typography>
+        },
+        {
+            title: 'Ngày cập nhật', dataIndex: 'updatedAt', sorter: true, render: (record) =>
+                <Typography>
+                    {handleUpdateAt(record)}
                 </Typography>
         },
         {
@@ -77,8 +80,18 @@ const TableUser = () => {
         return formattedDate;
     }
 
+    const handleMoney = (data) => {
+        const formatter = new Intl.NumberFormat('vi-VN', {
+            style: 'currency',
+            currency: 'VND',
+
+        });
+        const m = formatter.format(data);
+        return m;
+    }
+
     const handleDelete = async (id) => {
-        const res = await callDeleteUser(id);
+        const res = await callDeleteBook(id);
         setIsLoading(true);
         if (res && res.data) {
             fetchListUser()
@@ -101,7 +114,6 @@ const TableUser = () => {
             const a = sorter.order === "ascend" ? `sort=${sorter.field}` : `sort=-${sorter.field}`
             setIsSorter(a)
         }
-
     };
 
     useEffect(() => {
@@ -117,7 +129,7 @@ const TableUser = () => {
         if (isSorter) {
             query += `&${isSorter}`;
         }
-        const res = await callUserPaginayion(query);
+        const res = await callBookPagination(query);
         if (res.data.result.length === 0 && currentP > 1) {
             setCurrent(currentP - 1)
         }
@@ -150,11 +162,12 @@ const TableUser = () => {
         XLSX.writeFile(wb, "data.csv", { bookType: 'csv', FS: ";" });
         message.success('File downloaded successfully.');
     }
+
     const renderHeader = () => {
         return (
             <div className="header-table">
                 <span>
-                    table
+                    Table List Books
                 </span>
                 <span style={{
                     display: "flex",
@@ -165,12 +178,6 @@ const TableUser = () => {
                         type="primary"
                         onClick={handleOnclick}
                     >Export</Button>
-
-                    <Button
-                        icon={<CloudUploadOutlined />}
-                        type="primary"
-                        onClick={() => setIsShowImport(true)}
-                    >Import</Button>
 
                     <Button
                         icon={<PlusOutlined />}
@@ -193,6 +200,7 @@ const TableUser = () => {
         setDataRecord(record)
     }
 
+
     return (
         <>
             <Row gutter={[24]}
@@ -202,7 +210,8 @@ const TableUser = () => {
                     flexDirection: "column",  // Đảm bảo các cột xếp theo chiều dọc
                     alignItems: "center",  // Căn giữa các cột theo chiều ngang
                     rowGap: "50px"
-                }}>
+                }}
+            >
                 <Col span={24}>
                     <Space
                         style={{
@@ -221,13 +230,13 @@ const TableUser = () => {
                         >
                             <InputSearch
                                 handleOnSearch={handleOnSearch}
+                                handleRefesh={handleRefesh}
                             />
                         </Space>
                     </Space>
                 </Col>
 
                 <Col span={24}>
-
                     <Space
                         style={{
                             border: "1px solid #D9D9D9",  // Viền mỏng hơn với màu nhạt
@@ -272,19 +281,14 @@ const TableUser = () => {
                     </Space>
                 </Col>
             </Row>
-            <UserViewDetail
+            <BookViewDetail
                 show={open}
                 setShow={setOpen}
                 data={dataRecord}
             />
-            <UserCreate
+            <BookCreate
                 show={isShowCreate}
                 setShow={setIsShowCreate}
-                fetchListUser={fetchListUser}
-            />
-            <ImportUser
-                show={isShowImport}
-                setShow={setIsShowImport}
                 fetchListUser={fetchListUser}
             />
             <UserUpdate
@@ -297,4 +301,4 @@ const TableUser = () => {
     )
 }
 
-export default TableUser;
+export default BookManage;
