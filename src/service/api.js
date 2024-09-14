@@ -65,3 +65,7 @@ export const callBookImage = (fileImg) => {
 export const callBookCreate = (thumbnail, slider, mainText, author, price, sold, quantity, category) => {
     return axios.post(`/api/v1/book`, { thumbnail, slider, mainText, author, price, sold, quantity, category })
 }
+
+export const callBookUpdate = (id, thumbnail, slider, mainText, author, price, sold, quantity, category) => {
+    return axios.put(`/api/v1/book/${id}`, { thumbnail, slider, mainText, author, price, sold, quantity, category })
+}

@@ -3,7 +3,7 @@ import { Badge, Col, Descriptions, Drawer, Image, Row, Typography } from 'antd';
 import { v4 as uuidv4 } from 'uuid';
 
 const BookViewDetail = (props) => {
-    const { show, setShow, data } = props;
+    const { show, setShow, data, setData } = props;
     const styles = {
         width: "120px",
         height: "120px",
@@ -53,9 +53,6 @@ const BookViewDetail = (props) => {
         return m;
     };
 
-    const handleP = (data) => {
-        return data.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-    }
     const items = [
         {
             key: '1',
@@ -113,6 +110,10 @@ const BookViewDetail = (props) => {
         }
     ];
 
+    const handleClose = () => {
+        setShow(false)
+        setData({})
+    }
     return (
         <>
             <Drawer
@@ -121,7 +122,7 @@ const BookViewDetail = (props) => {
                 title={<p>Chức năng xem chi tiết</p>}
                 placement="right"
                 open={show}
-                onClose={() => setShow(false)}
+                onClose={handleClose}
                 width={800}
             >
                 <Typography style={{ padding: "0px 10px 30px 0px", fontSize: "17px", fontWeight: 600 }}>Thông tin Book</Typography>

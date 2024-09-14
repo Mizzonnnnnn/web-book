@@ -22,7 +22,7 @@ const BookManage = () => {
     const [dataRecord, setDataRecord] = useState({});
     const [isShowCreate, setIsShowCreate] = useState(false);
     const [isShowUpdate, setIsShowUpdate] = useState(false);
-
+    const [dataUpdate, setDataUpdate] = useState(null)
     const columns = [
         {
             title: 'Id', dataIndex: '_id', width: "19%", render: (record) =>
@@ -60,7 +60,7 @@ const BookManage = () => {
                     </div>
 
                     <div>
-                        <EditOutlined onClick={() => setIsShowUpdate(true)} style={{ color: "blue" }} />
+                        <EditOutlined onClick={() => { setIsShowUpdate(true); setDataUpdate(record) }} style={{ color: "blue" }} />
                     </div>
                 </div>
         },
@@ -94,7 +94,7 @@ const BookManage = () => {
         const res = await callDeleteBook(id);
         setIsLoading(true);
         if (res && res.data) {
-            fetchListUser()
+            fetchBook()
             message.success("Delele success")
         }
         setIsLoading(false);
@@ -117,10 +117,10 @@ const BookManage = () => {
     };
 
     useEffect(() => {
-        fetchListUser()
+        fetchBook()
     }, [currentP, pageSize, filter, isSorter])
 
-    const fetchListUser = async () => {
+    const fetchBook = async () => {
         let query = `&current=${currentP}&pageSize=${pageSize}`;
 
         if (filter) {
@@ -150,7 +150,7 @@ const BookManage = () => {
     const handleRefesh = () => {
         setFilter("")
         setIsSorter("")
-        fetchListUser()
+        fetchBook()
         setIsLoading(true);
         setIsLoading(false)
     }
@@ -285,17 +285,19 @@ const BookManage = () => {
                 show={open}
                 setShow={setOpen}
                 data={dataRecord}
+                setData={setDataRecord}
             />
             <BookCreate
                 show={isShowCreate}
                 setShow={setIsShowCreate}
-                fetchListUser={fetchListUser}
+                fetchBook={fetchBook}
             />
             <UserUpdate
                 show={isShowUpdate}
                 setShow={setIsShowUpdate}
-                data={dataRecord}
-                fetchListUser={fetchListUser}
+                data={dataUpdate}
+                fetchBook={fetchBook}
+                setData={setDataUpdate}
             />
         </>
     )

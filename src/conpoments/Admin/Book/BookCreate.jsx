@@ -6,7 +6,7 @@ import { callBookCategory, callCreateUser, callBookImage, callBookCreate } from 
 
 
 const BookCreate = (props) => {
-    const { show, setShow, fetchListUser } = props;
+    const { show, setShow, fetchBook } = props;
     const [isSubmit, setIsSubmit] = useState(false);
     const [listCategory, setListCategory] = useState([])
     const [form] = Form.useForm();
@@ -60,7 +60,7 @@ const BookCreate = (props) => {
             message.success('Tạo mới Book thành công');
             form.resetFields();
             setShow(false)
-            await fetchListUser()
+            await fetchBook()
         } else {
             notification.error({
                 message: 'Đã có lỗi xảy ra',
@@ -108,8 +108,9 @@ const BookCreate = (props) => {
     const handleUploadFile_silder = async ({ file, onSuccess, onError }) => {
         const res = await callBookImage(file);
         if (res && res.data) {
+            s
             setFileSlider((fileSlider) => [...fileSlider, {
-                name: res.data.fileUploaded, uuid: file.uid
+                name: res.data.fileUploaded, uid: file.uid
             }])
             onSuccess("ok");
 
@@ -122,7 +123,7 @@ const BookCreate = (props) => {
         const res = await callBookImage(file);
         if (res && res.data) {
             setFileThumbnail([{
-                name: res.data.fileUploaded, uuid: file.uid
+                name: res.data.fileUploaded, uid: file.uid
             }])
             onSuccess("ok");
         } else {
