@@ -8,7 +8,7 @@ import "../admin.scss";
 import BookViewDetail from "./BookViewDetail";
 import BookCreate from "./BookCreate";
 import * as XLSX from 'xlsx';
-import UserUpdate from "./UserUpdate";
+import BookUpdate from "./BookUpdate";
 
 const BookManage = () => {
     const [listData, setListData] = useState([]);
@@ -156,10 +156,18 @@ const BookManage = () => {
     }
 
     const handleOnclick = () => {
-        const ws = XLSX.utils.json_to_sheet(listData);
+        // Chuyển đổi mảng slider thành chuỗi trước khi xuất file
+        const modifiedData = listData.map(item => {
+            return {
+                ...item,
+                slider: item.slider.join(", ") // Nối các phần tử trong mảng slider thành chuỗi
+            };
+        });
+
+        const ws = XLSX.utils.json_to_sheet(modifiedData); // Sử dụng dữ liệu đã được chuyển đổi
         const wb = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(wb, ws, "Datas");
-        XLSX.writeFile(wb, "data.csv", { bookType: 'csv', FS: ";" });
+        XLSX.utils.book_append_sheet(wb, ws, "Data");
+        XLSX.writeFile(wb, "bookData.csv", { bookType: 'csv', FS: ";" });
         message.success('File downloaded successfully.');
     }
 
@@ -292,7 +300,7 @@ const BookManage = () => {
                 setShow={setIsShowCreate}
                 fetchBook={fetchBook}
             />
-            <UserUpdate
+            <BookUpdate
                 show={isShowUpdate}
                 setShow={setIsShowUpdate}
                 data={dataUpdate}

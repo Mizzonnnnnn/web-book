@@ -2,6 +2,7 @@ import { Button, Checkbox, Col, Form, Input, Row, Space, theme } from 'antd';
 
 
 const InputSearch = (props) => {
+    const [form] = Form.useForm()
     const { handleOnSearch } = props;
     const onFinish = (values) => {
         let query = "";
@@ -25,12 +26,17 @@ const InputSearch = (props) => {
         console.log('Failed:', errorInfo);
     };
 
+    const handleClear = () => {
+        form.resetFields()
+        props.handleRefesh();
+    }
     return (
         <Form
             name="basic"
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
             autoComplete="off"
+            form={form}
         >
             <Row gutter={24}>
 
@@ -80,7 +86,7 @@ const InputSearch = (props) => {
                     <Button type="primary" htmlType="submit">
                         Submit
                     </Button>
-                    <Button htmlType="submit">
+                    <Button htmlType="button" onClick={handleClear}>
                         Clear
                     </Button>
                 </Space>

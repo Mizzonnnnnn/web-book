@@ -39,7 +39,7 @@ const UserCreate = (props) => {
             >
                 <br />
                 <Form
-                    name="layout-multiple-horizontal"
+                    name="Create User"
                     labelCol={{ span: 4 }}
                     wrapperCol={{ span: 24 }}
                     onFinish={handleOk}

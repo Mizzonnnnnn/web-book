@@ -221,6 +221,8 @@ const TableUser = () => {
                         >
                             <InputSearch
                                 handleOnSearch={handleOnSearch}
+                                handleRefesh={handleRefesh}
+
                             />
                         </Space>
                     </Space>
