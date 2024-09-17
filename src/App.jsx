@@ -62,19 +62,17 @@ export default function App() {
     },
     { path: "/login", element: <LoginPage />, },
     { path: "/register", element: <RegisterPage />, },
+
     {
       path: "/admin",
-      element:
-        <ProtectedRoute>
-          <LayoutAdmin />
-        </ProtectedRoute>,
+      element: <LayoutAdmin />,
       errorElement: <NotFound404 />,
       children: [
         {
           index: true, element:
-            // <ProtectedRoute>
-            <AdminPage />
-          // </ProtectedRoute>
+            <ProtectedRoute>
+              <AdminPage />
+            </ProtectedRoute>
         },
         { path: "contact", element: <ContactPage /> },
         { path: "book", element: <BookPage /> },

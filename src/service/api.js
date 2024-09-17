@@ -69,3 +69,11 @@ export const callBookCreate = (thumbnail, slider, mainText, author, price, sold,
 export const callBookUpdate = (id, thumbnail, slider, mainText, author, price, sold, quantity, category) => {
     return axios.put(`/api/v1/book/${id}`, { thumbnail, slider, mainText, author, price, sold, quantity, category })
 }
+
+export const callPaginationBook = (queryString) => {
+    return axios.get(`/api/v1/book?${queryString}`)
+}
+
+export const callAllBook = () => {
+    return axios.get(`/api/v1/book`)
+}
