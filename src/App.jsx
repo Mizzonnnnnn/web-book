@@ -18,7 +18,8 @@ import ProtectedRoute from "./conpoments/ProtectRoute/index.jsx";
 import NotFound404 from "./conpoments/NotFound/NotFound404.jsx";
 import LayoutAdmin from "./conpoments/Admin/index.jsx";
 import ManageUser from "./pages/admin/user/index.jsx";
-import BookPage from "./pages/admin/book/index,.jsx";
+import BookPage from "./pages/book/index.jsx";
+import ManageBookPage from "./pages/admin/book/index.jsx";
 
 const Layout = () => {
   return (
@@ -57,9 +58,10 @@ export default function App() {
       children: [
         { index: true, element: <Index /> },
         { path: "contact", element: <ContactPage /> },
-        { path: "book", element: <BookPage /> },
+        { path: "book/:bookId", element: <BookPage /> },
       ],
     },
+
     { path: "/login", element: <LoginPage />, },
     { path: "/register", element: <RegisterPage />, },
 
@@ -74,11 +76,14 @@ export default function App() {
               <AdminPage />
             </ProtectedRoute>
         },
-        { path: "contact", element: <ContactPage /> },
-        { path: "book", element: <BookPage /> },
+        {
+          path: "book", element:
+            <ProtectedRoute>
+              <ManageBookPage />
+            </ProtectedRoute>
+        },
         {
           path: "user", element:
-
             <ProtectedRoute>
               <ManageUser />
             </ProtectedRoute>
@@ -94,9 +99,10 @@ export default function App() {
         || window.location.pathname === '/login'
         || window.location.pathname === "/"
         || window.location.pathname === "/register"
+        || window.location.pathname.startsWith('/book')
         ? <RouterProvider router={router} />
         : <Loading />}
     </>
-
+    // <RouterProvider router={router} />
   )
 }

@@ -1,6 +1,6 @@
 import BookManage from "../../../conpoments/Admin/Book/BookManage";
 
-const BookPage = () => {
+const ManageBookPage = () => {
     return (
         <>
             <BookManage />
@@ -8,4 +8,4 @@ const BookPage = () => {
     )
 }
 
-export default BookPage;
+export default ManageBookPage;
