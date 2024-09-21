@@ -94,12 +94,20 @@ const Header = () => {
     return (
         <div className="header-container">
             <div className="page-header">
-                <div className='header-icon'>
-                    <FaBook className='icon' />
+                <div style={{
+                    cursor: "pointer",
+                    display: "flex"
+                }}
+                    onClick={() => navigate('/')}
+                >
+                    <div className='header-icon'>
+                        <FaBook className='icon' />
+                    </div>
+                    <div className='header-title'>
+                        TIKA
+                    </div>
                 </div>
-                <div className='header-title'>
-                    TIKA
-                </div>
+
                 <div className='header-search'>
                     <Search
                         placeholder="Bạn tìm gì hôm nay"

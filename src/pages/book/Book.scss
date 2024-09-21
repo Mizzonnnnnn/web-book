@@ -1,0 +1,234 @@
+* {
+    font-family: Inter, Helvetica, Arial, sans-serif;
+}
+
+.book-container {
+    background-color: #F5F5FA;
+    display         : flex;
+    gap             : 25px;
+    padding         : 20px;
+    padding-top     : 30px;
+    align-items     : flex-start;
+    justify-content : center;
+
+    .left {
+        width          : 350px;
+        background     : white;
+        padding        : 10px;
+        display        : flex;
+        align-items    : center;
+        justify-content: center;
+        position       : sticky;
+        top            : 0;
+        border-radius  : 10px;
+        cursor         : pointer;
+
+        .image {
+            display        : flex;
+            align-items    : center;
+            justify-content: center;
+            width          : 320px;
+            padding-top    : 5px;
+            padding-bottom : 5px;
+        }
+
+        .image-gallery-thumbnail.active,
+        .image-gallery-thumbnail:focus {
+            outline: none;
+            border : 1px solid #33b789;
+
+            &:hover {
+                border: none;
+            }
+        }
+
+        .image-gallery-thumbnail .image-gallery-thumbnail-inner {
+            border: 1px solid #ded4d4;
+        }
+
+        .image-gallery-thumbnail {
+            width: 53px;
+        }
+    }
+
+    .center {
+        width : 587px;
+        gap   : 16px;
+        height: 200vh;
+
+        .center1 {
+            background    : white;
+            padding       : 20px;
+            border-radius : 10px;
+            gap           : 5px;
+            display       : flex;
+            flex-direction: column;
+
+            .brand {
+                gap      : 10px;
+                display  : flex;
+                flex-wrap: wrap;
+
+                .image1 {
+                    width : 120px;
+                    height: 20px;
+                }
+
+                .image2 {
+                    width : 89px;
+                    height: 20px;
+                }
+            }
+
+            .title {
+                margin     : 0px;
+                color      : rgb(39, 39, 42);
+                font-size  : 25px;
+                font-weight: 500;
+                line-height: 150%;
+                word-break : break-word;
+                white-space: break-spaces;
+            }
+
+            .sold {
+                font-size  : 14px;
+                line-height: 24px;
+                color      : rgb(120, 120, 120);
+            }
+
+            .line {
+                height          : 13px;
+                background-color: rgb(182, 182, 193);
+                border          : none;
+                width           : 2px;
+            }
+
+            .money {
+                display        : flex;
+                justify-content: flex-start;
+                text-align     : center;
+                line-height    : 150%;
+                gap            : 10px;
+                padding-top    : 10px;
+
+                .price {
+                    font-size  : 30px;
+                    color      : rgb(255, 66, 78);
+                    font-weight: 600;
+                }
+
+                .sale {
+                    font-size    : 16px;
+                    border-radius: 8px;
+                    background   : rgb(245, 245, 250);
+                    color        : rgb(39, 39, 42);
+                    padding      : 1px 6px;
+                }
+
+
+                .titket {
+                    width              : 17px;
+                    height             : 17px;
+                    // padding         : 1px 6px;
+                    // background   : rgb(245, 245, 250);
+                    margin-top         : 3px;
+                }
+
+                .price-real {
+                    font-size      : 14px;
+                    font-weight    : 400;
+                    color          : rgb(128, 128, 137);
+                    text-decoration: line-through;
+                    padding-right  : 5px;
+                }
+            }
+
+            .teXt {
+                padding-top: 5px;
+
+                .text {
+                    font-weight: 400;
+                    line-height: 21px;
+                    text-align : left;
+                    color      : rgb(128, 128, 137);
+                }
+            }
+
+            .foote-c1 {
+                display        : flex;
+                justify-content: flex-start;
+                align-items    : center;
+                gap            : 5px;
+                margin-top     : -1px;
+
+                .titket {
+                    width : 21px;
+                    height: 21px;
+                }
+
+                .text {
+                    padding-left: 5px;
+                    color       : #808089;
+                    font-size   : 14px;
+                }
+            }
+        }
+    }
+
+    .right {
+        width        : 360px;
+        background   : white;
+        padding      : 20px;
+        border-radius: 10px;
+        position     : sticky;
+        top          : 0;
+
+        .button {
+            display       : flex;
+            flex-direction: column;
+            gap           : 10px;
+
+            .button-buy {
+                background       : rgb(255, 66, 78);
+                border-radius    : 4px;
+                border           : none;
+                cursor           : pointer;
+                font-weight      : 300;
+                display          : flex;
+                -webkit-box-pack : center;
+                justify-content  : center;
+                -webkit-box-align: center;
+                align-items      : center;
+                padding          : 8px;
+                gap              : 8px;
+                white-space      : nowrap;
+                color            : rgb(255, 255, 255);
+                height           : 40px;
+                font-size        : 16px;
+                line-height      : 150%;
+                width            : 100%;
+            }
+
+            .button-add {
+                display          : flex;
+                -webkit-box-pack : center;
+                justify-content  : center;
+                -webkit-box-align: center;
+                align-items      : center;
+                padding          : 8px;
+                gap              : 8px;
+                white-space      : nowrap;
+                width            : 100%;
+                height           : 40px;
+                cursor           : pointer;
+                background       : rgb(255, 255, 255);
+                font-size        : 16px;
+                line-height      : 150%;
+                color            : rgb(10, 104, 255);
+                border           : 1px solid rgb(10, 104, 255);
+                border-radius    : 4px;
+                width            : 100%;
+            }
+        }
+    }
+}

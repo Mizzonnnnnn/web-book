@@ -3,6 +3,7 @@ import * as ReactDOM from "react-dom/client";
 import App from './App.jsx'
 import store from './redux/store.js'
 import { Provider } from 'react-redux'
+import "react-image-gallery/styles/scss/image-gallery.scss";
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(

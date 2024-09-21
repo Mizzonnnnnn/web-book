@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { FilterOutlined, LineOutlined, SyncOutlined } from '@ant-design/icons'
 import { callBookCategory } from "../../service/api";
 import { useNavigate } from "react-router-dom";
-
+import { Wave } from 'antd/lib/_util/wave';
 const Index = () => {
     const [form] = Form.useForm();
     const [cateGory, setCateGory] = useState([]);
@@ -101,7 +101,6 @@ const Index = () => {
 
     const handleRefesh = () => {
         setCurrentPage(1)
-        setFilterCategory("")
         setFilter("")
         form.resetFields()
     }
@@ -145,7 +144,24 @@ const Index = () => {
     }
     const handleRedirectBook = (book) => {
         const bookId = toSlug(book.mainText);
-        navigate(`/book/${bookId}?id=${book._id}`)
+        navigate(`/book/${bookId}?id=${book._id}`, { state: book })
+    }
+
+    const handleRandom = () => {
+        const random = Math.floor(Math.random() * 10) + 1;
+        return random;
+    }
+
+    data.map((item, index) => {
+        const discount = { "discount": handleRandom() };
+        data[index] = { ...item, ...discount };
+    })
+
+    const handleMoney = (price, discount) => {
+        const d = discount / 100;
+        const discountedPrice = price - price * d;
+
+        return Math.round(discountedPrice * 100) / 100;
     }
     return (
         <div className="home-container" >
@@ -278,11 +294,13 @@ const Index = () => {
                                                     />
                                                 </div>
                                             }
-                                            onClick={() => handleRedirectBook(item)}
+                                            onClick={() => {
+                                                handleRedirectBook(item)
+                                            }}
                                         >
                                             <div className='priceSale-book'>
-                                                <div className='price'>{handlePrice(item.price)}</div>
-                                                <div className='sale'>(-27%)</div>
+                                                <div className='price'>{handlePrice(handleMoney(item.price, item.discount))}</div>
+                                                <div className='sale'>(-{item.discount}%)</div>
                                             </div>
 
                                             <div className='author-book'>

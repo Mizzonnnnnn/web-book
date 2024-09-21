@@ -1,0 +1,28 @@
+.picture-container {
+    width : 500px;
+    height: auto;
+
+    .image-gallery-slides {
+        width: 600px;
+    }
+
+    .image-gallery-content {
+        width  : 600px;
+        display: flex;
+    }
+
+    .ant-image-mask {
+        position  : static;
+        background: transparent
+    }
+
+    .image-gallery-thumbnail .image-gallery-thumbnail-inner {
+        border: 1px solid #ded4d4;
+    }
+
+    .image-gallery-thumbnails .image-gallery-thumbnails-container {
+        cursor     : pointer;
+        text-align : center;
+        white-space: unset;
+    }
+}
