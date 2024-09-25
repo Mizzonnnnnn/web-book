@@ -20,7 +20,8 @@ import LayoutAdmin from "./conpoments/Admin/index.jsx";
 import ManageUser from "./pages/admin/user/index.jsx";
 import BookPage from "./pages/book/index.jsx";
 import ManageBookPage from "./pages/admin/book/index.jsx";
-
+import './styles/global.scss'
+import OrderPage from "./pages/order/index.jsx";
 const Layout = () => {
   return (
     <div className="layout-app">
@@ -37,9 +38,8 @@ export default function App() {
   const isAuthenticated = useSelector(state => state.account.isAuthenticated);
 
   const getAccount = async () => {
-
     if (window.location.pathname === "/login"
-      || window.location.pathname === "/register") return;
+      || window.location.pathname === "/register" || window.location.pathname.startsWith('/order')) return;
     const res = await callFetchAccount();
     if (res && res.data) {
       dispatch(getAccountAction(res.data));
@@ -58,6 +58,7 @@ export default function App() {
       children: [
         { index: true, element: <Index /> },
         { path: "contact", element: <ContactPage /> },
+        { path: "order", element: <OrderPage /> },
         { path: "book/:bookId", element: <BookPage /> },
       ],
     },
@@ -89,6 +90,7 @@ export default function App() {
             </ProtectedRoute>
         },
 
+
       ],
     },
   ])
@@ -100,6 +102,7 @@ export default function App() {
         || window.location.pathname === "/"
         || window.location.pathname === "/register"
         || window.location.pathname.startsWith('/book')
+        || window.location.pathname.startsWith('/order')
         ? <RouterProvider router={router} />
         : <Loading />}
     </>

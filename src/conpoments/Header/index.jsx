@@ -1,32 +1,40 @@
 import Search from 'antd/es/transfer/search';
 import './header.scss'
 import { FaBook } from "react-icons/fa";
-import { Avatar, Badge, Button, Dropdown, message, Space } from 'antd';
+import { Avatar, Badge, Button, Dropdown, message, Popover, Space } from 'antd';
 import { HomeTwoTone, ShoppingCartOutlined, SmileOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { callLogout } from '../../service/api';
 import { doLogoutAction } from '../../redux/account/accountSilce';
+import { useState } from 'react';
 const onSearch = (value, _e, info) => console.log(info?.source, value);
 
 
 const Header = () => {
+    let items = [];
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     const account = useSelector(state => state.account);
+    const cartItems = useSelector(state => state.order);
     const role = account.user.role;
     const image = `${import.meta.env.VITE_BACKEND_URL}/images/avatar/${account.user.avatar}`
-    const dispatch = useDispatch();
+
+    const handleConvert = (data) => {
+        const formatter = new Intl.NumberFormat('vi-VN', {
+            style: 'currency',
+            currency: 'VND',
+        });
+        return formatter.format(data);;
+    }
 
     const handleLogout = async () => {
         const res = await callLogout();
-
         if (res && res.data) {
             dispatch(doLogoutAction());
-            message.success(res.data);
+            message.success("Logout thành công");
         }
     }
-
-    let items = [];
 
     if (role === "ADMIN") {
         items.push(
@@ -91,6 +99,29 @@ const Header = () => {
             },
         )
     }
+    const text = <span>Sản phẩm mới thêm</span>;
+    const content = (
+        <div>
+            <div className='popover-content'>
+                {cartItems.carts.map((item, index) => {
+                    return (
+                        <div className='popoverCard' key={index}>
+                            <div>
+                                <img src={`${import.meta.env.VITE_BACKEND_URL}/images/book/${item?.detail?.book?.thumbnail}`} alt="image" className='image' />
+                            </div>
+                            <div className='title-price'>
+                                <div>{item?.detail?.book?.mainText}</div>
+                                <div><span className='price'>{handleConvert(item?.detail?.book?.price)}</span></div>
+                            </div>
+                        </div>
+                    )
+                })}
+            </div>
+            <div className='popover-footer'>
+                <Button className='popover-button' onClick={() => navigate('/order')}>Xem giỏ hàng</Button>
+            </div>
+        </div>
+    );
     return (
         <div className="header-container">
             <div className="page-header">
@@ -115,6 +146,7 @@ const Header = () => {
                         onSearch={onSearch}
                     />
                 </div>
+
                 <div className='header-home'>
                     <div className='icon-home'>
                         <HomeTwoTone />
@@ -154,12 +186,13 @@ const Header = () => {
 
                 </div>
 
-
                 <div className='line' />
 
                 <div className='shopping-cart'>
-                    <Badge count={5} size="small">
-                        <ShoppingCartOutlined className="icon-Shopping" style={{ fontSize: "25px" }} />
+                    <Badge count={cartItems?.carts?.length} size="small" showZero>
+                        <Popover placement="bottomRight" title={text} content={content} rootClassName='popover-carts'>
+                            <ShoppingCartOutlined className="icon-Shopping" style={{ fontSize: "25px" }} />
+                        </Popover>
                     </Badge>
                 </div>
             </div>

@@ -1,5 +1,5 @@
 import { Button, Image, Modal } from "antd";
-import './ModalPicture.scss'
+import './Book.scss'
 import ImageGallery from "react-image-gallery";
 
 const ModalPicture = (props) => {
@@ -11,17 +11,13 @@ const ModalPicture = (props) => {
 
     const customRight = (item) => {
         return (
-            <>
-                <Image
-                    src={item.thumbnail}
-                    alt={item.alt || 'thumbnail'}
-                    style={{ width: '600px', height: '600px', objectFit: 'cover', padding: "10px" }}
-                />
-            </>
-
+            <Image
+                src={item.thumbnail}
+                alt={item.alt || 'thumbnail'}
+                style={{ width: '600px', height: '600px', objectFit: 'cover', padding: "10px" }}
+            />
         )
     }
-    console.log(data)
     return (
         <>
             <Modal
@@ -38,7 +34,7 @@ const ModalPicture = (props) => {
                     <div className="picture-container">
                         <ImageGallery
                             items={data}
-                            showFullscreenButton={null} 
+                            showFullscreenButton={null}
                             showPlayButton={null}
                             renderItem={customRight}
                         />
