@@ -33,9 +33,15 @@ const orderSilce = createSlice({
 
             state.carts = carts;
 
+        },
+        doRemoveAll(state, action) {
+            let carts = state.carts;
+            carts.splice(0, carts.length);
+
+            state.carts = carts;
         }
     }
 })
 
-export const { doGetDetailBook, doRemoveOrder } = orderSilce.actions;
+export const { doGetDetailBook, doRemoveOrder, doRemoveAll } = orderSilce.actions;
 export default orderSilce.reducer

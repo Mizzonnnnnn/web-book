@@ -2,103 +2,163 @@
     padding         : 15px 45px 15px 45px;
     background-color: #F5F5FA;
     display         : flex;
-    gap             : 25px;
-    align-items     : flex-start;
-    max-width       : 1440;
+    gap             : 15px;
+    max-width       : 1440px;
+    min-height      : calc(100vh - 70px - 50px - 30px);
+    flex-direction  : column;
 
-    .left {
-        width         : 75%;
-        display       : flex;
-        flex-direction: column;
-        gap           : 15px;
+    .control {
+        background-color: white;
+        border-radius   : 10px;
+        padding         : 3px 10px 3px 10px;
+        display         : flex;
+        justify-content : space-between;
+        align-items     : center;
+        width           : auto;
 
-        .main {
-            display         : flex;
+        .product {
+            display        : flex;
+            justify-content: center;
+            align-items    : center;
+            gap            : 10px;
+            padding-right  : 10px;
+            width          : auto;
+
+            .one {
+                width          : 15px;
+                height         : 15px;
+                border-radius  : 50%;
+                border         : 1px solid #d1d6d9;
+                padding        : 4px;
+                color          : #9ea8ae;
+                display        : flex;
+                justify-content: center;
+                align-items    : center;
+            }
+
+            .text {
+                white-space: nowrap;
+            }
+
+            .line {
+                width           : 100%;
+                background-color: rgb(212, 222, 222);
+                height          : 3px;
+            }
+        }
+    }
+
+    .l-c {
+        display    : flex;
+        gap        : 10px;
+        width      : 100%;
+        align-items: flex-start;
+
+        .left {
+            width         : 75%;
+            display       : flex;
+            flex-direction: column;
+            gap           : 15px;
+
+            .main {
+                display         : flex;
+                background-color: white;
+                padding         : 15px;
+                gap             : 40px;
+                justify-content : flex-start;
+                align-items     : center;
+                border-radius   : 10px;
+
+                .image {
+                    width : 60px;
+                    height: 60px;
+                }
+
+                .content {
+                    display        : flex;
+                    justify-content: flex-start;
+                    align-items    : center;
+                    gap            : 20px;
+
+                    .title {
+                        white-space       : nowrap;
+                        width             : 450px;
+                        -webkit-line-clamp: 1;
+                        overflow          : hidden;
+                        text-overflow     : ellipsis;
+                    }
+
+                    .money {
+                        width: 100px;
+                    }
+
+                    .price {
+                        white-space: nowrap;
+                        width      : 150px;
+
+                    }
+
+                    .quantity {
+                        width: 100px;
+                    }
+
+                    .order-btn {
+                        cursor: pointer;
+                    }
+                }
+            }
+
+            .empty {
+                background-color: white;
+                border-radius   : 10px;
+                height          : 400px;
+                display         : flex;
+                align-items     : center;
+                justify-content : center;
+            }
+        }
+
+        .right {
             background-color: white;
             padding         : 15px;
-            gap             : 40px;
-            justify-content : flex-start;
-            align-items     : center;
+            width           : 25%;
             border-radius   : 10px;
+            display         : flex;
+            flex-direction  : column;
+            gap             : 10px;
 
-            .image {
-                width : 60px;
-                height: 60px;
-            }
-
-            .content {
-                display: flex;
-                gap    : 20px;
-
-                .title {
-                    white-space       : nowrap;
-                    width             : 450px;
-                    -webkit-line-clamp: 1;
-                    overflow          : hidden;
-                    text-overflow     : ellipsis;
-
-                }
-
-                .money {
-                    width: 100px;
-                }
+            .tongTien {
+                display        : flex;
+                justify-content: space-between;
 
                 .price {
-                    white-space: nowrap;
-                    width      : 150px;
-
+                    color: rgb(255, 66, 78);
                 }
+            }
 
-                .quantity {
-                    width: 100px;
-                }
-
-                .order-btn {
-                    cursor: pointer;
-                }
+            .order-button {
+                background       : rgb(255, 66, 78);
+                border-radius    : 4px;
+                border           : none;
+                cursor           : pointer;
+                font-weight      : 300;
+                display          : flex;
+                -webkit-box-pack : center;
+                justify-content  : center;
+                -webkit-box-align: center;
+                align-items      : center;
+                padding          : 8px;
+                gap              : 8px;
+                white-space      : nowrap;
+                color            : rgb(255, 255, 255);
+                height           : 40px;
+                font-size        : 16px;
+                line-height      : 150%;
+                width            : 100%;
             }
         }
     }
 
-    .right {
-        background-color: white;
-        padding         : 15px;
-        width           : 25%;
-        border-radius   : 10px;
-        display         : flex;
-        flex-direction  : column;
-        gap             : 10px;
-
-        .tongTien {
-            display        : flex;
-            justify-content: space-between;
-
-            .price {
-                color: rgb(255, 66, 78);
-            }
-        }
-
-        .order-button {
-            background       : rgb(255, 66, 78);
-            border-radius    : 4px;
-            border           : none;
-            cursor           : pointer;
-            font-weight      : 300;
-            display          : flex;
-            -webkit-box-pack : center;
-            justify-content  : center;
-            -webkit-box-align: center;
-            align-items      : center;
-            padding          : 8px;
-            gap              : 8px;
-            white-space      : nowrap;
-            color            : rgb(255, 255, 255);
-            height           : 40px;
-            font-size        : 16px;
-            line-height      : 150%;
-            width            : 100%;
-        }
-    }
 
     @media (max-width: 768px) {
         flex-direction: column;

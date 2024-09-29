@@ -5,8 +5,7 @@ import { callPaginationBook } from "../../service/api";
 import { useEffect, useState } from "react";
 import { FilterOutlined, LineOutlined, SyncOutlined } from '@ant-design/icons'
 import { callBookCategory } from "../../service/api";
-import { useNavigate } from "react-router-dom";
-import { Wave } from 'antd/lib/_util/wave';
+import { useNavigate, useOutletContext } from "react-router-dom";
 const Index = () => {
     const [form] = Form.useForm();
     const [cateGory, setCateGory] = useState([]);
@@ -17,6 +16,8 @@ const Index = () => {
     const [meta, setMeta] = useState("");
     const [filter, setFilter] = useState("");
     const navigate = useNavigate();
+    const [searchTerm, setSearchTerm] = useOutletContext();
+
     const items = [
         {
             key: 'sort=-sold',
@@ -42,7 +43,7 @@ const Index = () => {
 
     useEffect(() => {
         fetchBook()
-    }, [currentPage, pageSize, filter, sortQuery,])
+    }, [currentPage, pageSize, filter, sortQuery, searchTerm])
 
     useEffect(() => {
         const fetchBookk = async () => {
@@ -68,6 +69,11 @@ const Index = () => {
         if (sortQuery) {
             query += `&${sortQuery}`;
         }
+
+        if (searchTerm) {
+            query += `&mainText=/${searchTerm}/i`
+        }
+        console.log(query)
 
         const res = await callPaginationBook(query);
 

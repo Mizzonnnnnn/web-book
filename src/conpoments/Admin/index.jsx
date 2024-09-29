@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     AppstoreOutlined,
     DownOutlined,
@@ -22,6 +22,7 @@ import { doLogoutAction } from '../../redux/account/accountSilce';
 
 const LayoutAdmin = () => {
     const [collapsed, setCollapsed] = useState(false);
+    const [activeMenu, setActiveMenu] = useState('/dashboard')
     const { token: { colorBgContainer, borderRadiusLG } } = theme.useToken();
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -45,7 +46,7 @@ const LayoutAdmin = () => {
             label: <Link to='/admin'>Dashboard</Link>,
         },
         {
-            key: '2',
+            key: 'user',
             icon: <UserOutlined />,
             label: 'Manage Users',
             children: [
@@ -80,7 +81,13 @@ const LayoutAdmin = () => {
 
     ];
 
-
+    useEffect(() => {
+        const currentPath = window.location.pathname.includes('/book');
+        console.log(currentPath)
+        if (window.location.pathname.includes('/book')) {
+            setActiveMenu('book')
+        }
+    }, [])
 
     return (
         <Layout className='admin-container'>
@@ -91,7 +98,7 @@ const LayoutAdmin = () => {
                 <div className="demo-logo-vertical" />
                 <Menu
                     mode="inline"
-                    defaultSelectedKeys={['1']}
+                    selectedKeys={[activeMenu]}
                     items={items}
                 />
             </Sider>

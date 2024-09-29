@@ -154,3 +154,17 @@
         }
     }
 }
+
+.update-user-container {
+    display: flex;
+    width  : 100%;
+
+    .image-update {
+        width: 50%;
+    }
+
+    .form-container {
+        width: 50%;
+
+    }
+}

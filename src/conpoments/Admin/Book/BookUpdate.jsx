@@ -25,7 +25,7 @@ const BookModalUpdate = (props) => {
     const [previewTitle, setPreviewTitle] = useState('');
 
     const [initForm, setInitForm] = useState(null);
-
+    console.log(data)
     useEffect(() => {
         const fetchCategory = async () => {
             const res = await callBookCategory();
@@ -100,8 +100,8 @@ const BookModalUpdate = (props) => {
             return;
         }
         const thumbnail = dataThumbnail[0].name;
+
         const slider = dataSlider.map(item => item.name)
-        console.log()
         const res = await callBookUpdate(_id, thumbnail, slider, mainText, author, price, sold, quantity, category);
         if (res && res.data) {
             message.success("Update thành công")
@@ -206,6 +206,7 @@ const BookModalUpdate = (props) => {
         setData({});
         setShow(false)
     }
+    console.log(dataThumbnail)
     return (
         <>
             <Modal

@@ -77,3 +77,41 @@ export const callPaginationBook = (queryString) => {
 export const callAllBook = () => {
     return axios.get(`/api/v1/book`)
 }
+
+export const callCreateOrder = (data) => {
+    return axios.post(`/api/v1/order`, { ...data })
+}
+
+export const callHistoryOrder = () => {
+    return axios.get('/api/v1/history')
+}
+
+export const callUpdateAvatar = (fileImg) => {
+    const body = new FormData();
+    body.append("fileImg", fileImg)
+    return axios({
+        method: "post",
+        url: "/api/v1/file/upload",
+        data: body,
+        headers: {
+            'Content-Type': "multipart/form-data",
+            "upload-type": "avatar"
+        }
+    })
+}
+
+export const callUpdateAccount = (fullName, phone, avatar, _id) => {
+    return axios.put('/api/v1/user', { fullName, phone, avatar, _id })
+}
+
+export const callRefeshtoken = () => {
+    return axios.get('/api/v1/auth/refresh')
+}
+
+export const callChangePassword = (email, oldpass, newpass) => {
+    return axios.post('/api/v1/user/change-password', { email, oldpass, newpass })
+}
+
+export const classHistoryOrder = (data) => {
+    return axios.get(`/api/v1/order?${data}`);
+}

@@ -35,11 +35,19 @@ export const accountSilce = createSlice({
                 avatar: "",
                 id: ""
             }
+        },
+        doUpdateUserInfoAction: (state, action) => {
+            state.user.avatar = action.payload.avatar;
+            state.user.phone = action.payload.phone;
+            state.user.fullName = action.payload.fullName;
+        },
+        doUploadAvatarAction: (state, action) => {
+            state.tempAvatar = action.payload.avatar;
         }
     },
 })
 
 // Action creators are generated for each case reducer function
-export const { doLoginAction, getAccountAction, doLogoutAction } = accountSilce.actions
+export const { doLoginAction, getAccountAction, doLogoutAction, doUpdateUserInfoAction } = accountSilce.actions
 
 export default accountSilce.reducer

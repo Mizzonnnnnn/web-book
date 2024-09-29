@@ -1,22 +1,25 @@
-import Search from 'antd/es/transfer/search';
 import './header.scss'
 import { FaBook } from "react-icons/fa";
-import { Avatar, Badge, Button, Dropdown, message, Popover, Space } from 'antd';
+import { Avatar, Badge, Button, Dropdown, message, Popover, Space, Input } from 'antd';
 import { HomeTwoTone, ShoppingCartOutlined, SmileOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { callLogout } from '../../service/api';
 import { doLogoutAction } from '../../redux/account/accountSilce';
-import { useState } from 'react';
-const onSearch = (value, _e, info) => console.log(info?.source, value);
+import { useEffect, useState } from 'react';
+import ModalAccount from './ModalAccount';
+const { Search } = Input;
 
 
-const Header = () => {
+const Header = (props) => {
+    const { searchTerm, setSearchTerm } = props;
     let items = [];
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const account = useSelector(state => state.account);
     const cartItems = useSelector(state => state.order);
+    const [isShowAccount, setIsShowAccount] = useState(false)
+    const [name, setName] = useState("");
     const role = account.user.role;
     const image = `${import.meta.env.VITE_BACKEND_URL}/images/avatar/${account.user.avatar}`
 
@@ -35,7 +38,9 @@ const Header = () => {
             message.success("Logout thành công");
         }
     }
-
+    useEffect(() => {
+        setName(account.user.fullName);
+    }, [account])
     if (role === "ADMIN") {
         items.push(
             {
@@ -68,9 +73,9 @@ const Header = () => {
             {
                 key: '1',
                 label: (
-                    <a target="_blank" rel="noopener noreferrer" href="https://www.antgroup.com">
+                    <span onClick={() => setIsShowAccount(true)}>
                         Thông tin tài khoảng
-                    </a>
+                    </span>
                 ),
             },
             {
@@ -122,6 +127,15 @@ const Header = () => {
             </div>
         </div>
     );
+
+
+    console.log(props)
+
+    const onSearch = (value, _e, info) => {
+        setSearchTerm(value)
+        console.log(info?.source, value)
+    };
+
     return (
         <div className="header-container">
             <div className="page-header">
@@ -176,7 +190,7 @@ const Header = () => {
                                         <Avatar size={25} src={image} />
                                     </div>
                                     <div className='title-profile'>
-                                        {account.user.fullName}
+                                        {name}
                                     </div>
                                 </Space>
 
@@ -196,6 +210,11 @@ const Header = () => {
                     </Badge>
                 </div>
             </div>
+
+            <ModalAccount
+                show={isShowAccount}
+                setShow={setIsShowAccount}
+            />
         </div >
     )
 }

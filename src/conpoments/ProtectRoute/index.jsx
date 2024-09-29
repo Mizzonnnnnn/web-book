@@ -6,7 +6,7 @@ const RoleBaseRoute = (props) => {
     const role = useSelector(state => state.account.user.role);
     const isAdminRoute = window.location.pathname.startsWith("/admin")
 
-    if (role === "ADMIN" && isAdminRoute) {
+    if (role === "ADMIN" && isAdminRoute || !isAdminRoute && (role === 'USER' || role === "ADMIN")) {
         return (<>{props.children}</>)
     } else {
         return (<NotFound403 />)

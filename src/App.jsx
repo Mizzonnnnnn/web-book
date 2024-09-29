@@ -1,6 +1,7 @@
 import {
   createBrowserRouter,
-  RouterProvider, Outlet
+  RouterProvider, Outlet,
+  useOutletContext
 } from "react-router-dom";
 import LoginPage from "./pages/login/index.jsx";
 import ContactPage from "./pages/contact/index.jsx";
@@ -8,7 +9,7 @@ import Header from "./conpoments/Header/index.jsx";
 import Footer from "./conpoments/Footer/index.jsx";
 import RegisterPage from "./pages/register/index.jsx";
 import Index from "./conpoments/Home/index.jsx";
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { callFetchAccount } from "./service/api.js";
 import { useDispatch, useSelector } from "react-redux";
 import { getAccountAction } from "./redux/account/accountSilce.js";
@@ -22,11 +23,16 @@ import BookPage from "./pages/book/index.jsx";
 import ManageBookPage from "./pages/admin/book/index.jsx";
 import './styles/global.scss'
 import OrderPage from "./pages/order/index.jsx";
+import HistoryPage from "./pages/history/index.jsx";
+import ManageOrder from "./pages/admin/order/index.jsx";
 const Layout = () => {
+  const [searchTerm, setSearchTerm] = useState("");
+
   return (
+
     <div className="layout-app">
-      <Header />
-      <Outlet />
+      <Header searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+      <Outlet context={[searchTerm, setSearchTerm]} />
       <Footer />
     </div>
   )
@@ -39,7 +45,7 @@ export default function App() {
 
   const getAccount = async () => {
     if (window.location.pathname === "/login"
-      || window.location.pathname === "/register" || window.location.pathname.startsWith('/order')) return;
+      || window.location.pathname === "/register") return;
     const res = await callFetchAccount();
     if (res && res.data) {
       dispatch(getAccountAction(res.data));
@@ -59,6 +65,7 @@ export default function App() {
         { index: true, element: <Index /> },
         { path: "contact", element: <ContactPage /> },
         { path: "order", element: <OrderPage /> },
+        { path: "history", element: <HistoryPage /> },
         { path: "book/:bookId", element: <BookPage /> },
       ],
     },
@@ -68,7 +75,11 @@ export default function App() {
 
     {
       path: "/admin",
-      element: <LayoutAdmin />,
+      element:
+        <ProtectedRoute>
+          <LayoutAdmin />
+        </ProtectedRoute>
+      ,
       errorElement: <NotFound404 />,
       children: [
         {
@@ -87,6 +98,12 @@ export default function App() {
           path: "user", element:
             <ProtectedRoute>
               <ManageUser />
+            </ProtectedRoute>
+        },
+        {
+          path: "order", element:
+            <ProtectedRoute>
+              <ManageOrder />
             </ProtectedRoute>
         },
 
