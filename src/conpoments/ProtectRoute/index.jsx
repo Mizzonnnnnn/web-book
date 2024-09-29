@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
-import NotFound403 from "../NotFound/notFound403";
+import NotFound403 from "../NotFound/notFound403.jsx";
 
 const RoleBaseRoute = (props) => {
     const role = useSelector(state => state.account.user.role);
