@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
-import NotFound403 from "../NotFound/notFound403.jsx";
+import NotFound403 from "../NotFound/NotFound403";
 
 const RoleBaseRoute = (props) => {
     const role = useSelector(state => state.account.user.role);
@@ -9,7 +9,7 @@ const RoleBaseRoute = (props) => {
     if (role === "ADMIN" && isAdminRoute || !isAdminRoute && (role === 'USER' || role === "ADMIN")) {
         return (<>{props.children}</>)
     } else {
-        return (<NotFound403 />)
+        return <NotFound403 />
 
     }
 }
