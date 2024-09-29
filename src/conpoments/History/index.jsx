@@ -2,7 +2,6 @@ import { Col, Row, Table, Tag, Typography } from "antd";
 import './History.scss'
 import { callHistoryOrder } from "../../service/api";
 import { useEffect, useState } from "react";
-import ReactJson from 'react-json-view'
 const Index = () => {
     const [data, setData] = useState([]);
 
@@ -44,23 +43,7 @@ const Index = () => {
                     <Tag color="green">{record}</Tag>
                 </Typography>
         },
-        {
-            title: "Chi tiết",
-            dataIndex: "detail",
-            key: "4",
-            width: '50%',
-            render: (record) =>
-                <Typography>
-                    <ReactJson
-                        src={record}
-                        enableClipboard={false}
-                        name="Chi tiết đơn mua"
-                        displayObjectSize={false}
-                        displayDataTypes={false}
-                        collapsed={true}
-                    ></ReactJson>
-                </Typography>
-        }
+
     ];
 
     useEffect(() => {
@@ -69,7 +52,7 @@ const Index = () => {
     const fetchOrderHistory = async () => {
         const res = await callHistoryOrder();
         if (res && res.data) {
-          
+
             const formatData = res.data.map((item, index) => ({
                 ...item,
                 stt: index + 1,
